@@ -86,8 +86,8 @@ export function App() {
         <u>
           <a
             href="https://www.linkedin.com/in/thatniceman"
+            rel="noreferrer"
             target="_blank"
-            rel="noopener"
           >
             Abhijeet Singh
           </a>
