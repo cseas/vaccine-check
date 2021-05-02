@@ -78,7 +78,7 @@ export function App() {
       <Text
         fontSize="sm"
         textAlign="center"
-        marginTop="20rem"
+        marginTop="21rem"
         padding="1rem 0"
         background="gray.100"
       >
