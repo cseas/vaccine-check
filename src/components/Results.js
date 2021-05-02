@@ -40,7 +40,7 @@ export function Results({ pincode }) {
     ["locations", pincode],
     () => getLocationsByPincode(pincode),
     {
-      refetchInterval: 15 * 60 * 1000, // 15 minutes
+      refetchInterval: 5 * 60 * 1000, // 15 minutes
     }
   );
 
