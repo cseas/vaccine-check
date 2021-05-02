@@ -22,6 +22,7 @@ function getDate() {
 
   let month = today.getMonth();
   month += 1;
+  month = month < 10 ? "0" + month : month;
 
   let year = today.getFullYear();
 
