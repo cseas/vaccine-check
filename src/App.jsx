@@ -21,7 +21,7 @@ export function App() {
   }
 
   function secondOnChange(value) {
-    if (value >= 100000) {
+    if (value >= 110000) {
       setSecondPincode(value);
     }
   }
@@ -33,7 +33,7 @@ export function App() {
           India vaccine centre availability checker
         </Text>
 
-        <Text fontSize="md" padding="1rem 0">
+        <Text fontSize="sm" padding="0.5rem 0">
           First Pincode
         </Text>
         <NumberInput
@@ -50,7 +50,7 @@ export function App() {
           </NumberInputStepper>
         </NumberInput>
 
-        <Text fontSize="md" padding="1rem 0">
+        <Text fontSize="sm" padding="0.5rem 0">
           Second Pincode
         </Text>
         <NumberInput
@@ -70,9 +70,11 @@ export function App() {
         <Results pincode={firstPincode} />
         <Results pincode={secondPincode} />
 
-        <Text fontSize="md" padding="2rem 0">
-          <strong>Note:</strong> This utility only checks if a vaccination
-          centre is available with minimum age limit 18.
+        <Text fontSize="sm" padding="2rem 0">
+          <strong>Note:</strong> This utility only checks for vaccination
+          centres for age group 18-44 years. This page will automatically
+          refresh periodically to check the availability of centres for your
+          selected pincodes.
         </Text>
       </Container>
       <Text

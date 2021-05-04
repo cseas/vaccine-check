@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { CircularProgress, Text } from "@chakra-ui/react";
 import { getLocationsByPincode } from "../api";
 import {
   Table,
@@ -12,7 +12,12 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
+  CircularProgress,
+  Button,
 } from "@chakra-ui/react";
+import { LastFound } from "./LastFound";
+import alertSfx from "../sounds/alert.mp3";
+import useSound from "use-sound";
 
 const MIN_AGE_LIMIT = 18;
 
@@ -35,12 +40,46 @@ function getAvailableLocations(centers) {
   return availableLocations;
 }
 
+function getTotalSlots(availableLocations) {
+  return availableLocations.reduce((accumulator, previousValue) => {
+    return accumulator + previousValue.slots;
+  }, 0);
+}
+
+function getTime(timestamp) {
+  const date = timestamp ? new Date(timestamp) : new Date();
+
+  let hours = date.getHours();
+  hours = hours < 10 ? "0" + hours : hours;
+
+  let minutes = date.getMinutes();
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+
+  return hours + ":" + minutes;
+}
+
+function getMinutes(date) {
+  const diff = new Date() - date;
+  return Math.floor(diff / 1000 / 60);
+}
+
 export function Results({ pincode }) {
-  const { data, isLoading, isError, error } = useQuery(
+  const [time, setTime] = useState("00:00");
+  const [date, setDate] = useState(new Date());
+  const [fullHouse, setFullHouse] = useState(true);
+  const [minutes, setMinutes] = useState(0);
+  const [slots, setSlots] = useState(0);
+  const [play, { isPlaying, stop }] = useSound(alertSfx);
+
+  useEffect(() => {
+    setSlots(0);
+  }, [pincode]);
+
+  const { data, isLoading, isError, error, dataUpdatedAt } = useQuery(
     ["locations", pincode],
     () => getLocationsByPincode(pincode),
     {
-      refetchInterval: 5 * 60 * 1000, // 15 minutes
+      refetchInterval: 3 * 60 * 1000, // 3 minutes
     }
   );
 
@@ -67,15 +106,29 @@ export function Results({ pincode }) {
   const availableLocations = getAvailableLocations(centers);
 
   if (availableLocations.length === 0) {
+    if (!fullHouse) {
+      setFullHouse(true);
+      setMinutes(getMinutes(date));
+    }
+
     return (
       <>
-        <Text fontSize="lg" color="red.700" padding="2rem 0 0">
-          No centres available right now for your selected pincode {pincode}.
-          This page will automatically refresh periodically to check whether a
-          centre is available.
-        </Text>
+        <Alert status="error" margin="2rem 0 0">
+          <AlertIcon />
+          All centres for {pincode} are booked at the moment. Updated at{" "}
+          {getTime(dataUpdatedAt)}.
+        </Alert>
+        <LastFound slots={slots} time={time} minutes={minutes} />
       </>
     );
+  }
+
+  if (fullHouse) {
+    setSlots(getTotalSlots(availableLocations));
+    setTime(getTime());
+    setDate(new Date());
+    setFullHouse(false);
+    play();
   }
 
   return (
@@ -94,6 +147,7 @@ export function Results({ pincode }) {
         <AlertTitle mt={4} mb={1} fontSize="lg">
           Slots available for pincode {pincode}!
         </AlertTitle>
+        {isPlaying ? <Button onClick={() => stop()}>Mute Alarm</Button> : null}
       </Alert>
       <Table variant="simple" margin="2rem 0 0">
         <TableCaption>
@@ -107,8 +161,8 @@ export function Results({ pincode }) {
           </Tr>
         </Thead>
         <Tbody>
-          {availableLocations.map((session) => (
-            <Tr>
+          {availableLocations.map((session, index) => (
+            <Tr key={index}>
               <Td>{session.location}</Td>
               <Td>{session.date}</Td>
               <Td isNumeric>{session.slots}</Td>

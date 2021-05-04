@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const API_BASE_PUBLIC =
+  "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin";
+
 export async function getLocationsByPincode(pincode) {
   if (!pincode) {
     return null;
@@ -8,9 +11,7 @@ export async function getLocationsByPincode(pincode) {
   const date = getDate();
 
   return await axios
-    .get(
-      `https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=${pincode}&date=${date}`
-    )
+    .get(`${API_BASE_PUBLIC}?pincode=${pincode}&date=${date}`)
     .then((response) => response.data);
 }
 
