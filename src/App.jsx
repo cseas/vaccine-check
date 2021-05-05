@@ -33,39 +33,49 @@ export function App() {
           India vaccine centre availability checker
         </Text>
 
-        <Text fontSize="sm" padding="0.5rem 0">
-          First Pincode
-        </Text>
-        <NumberInput
-          onChange={(valueString, valueNumber) => firstOnChange(valueNumber)}
-          precision={0}
-          step={1}
-          min={110000}
-          max={999999}
-        >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
+        <form style={{ display: "flex", justifyContent: "space-evenly" }}>
+          <div>
+            <Text fontSize="sm" padding="0.5rem 0">
+              First Pincode
+            </Text>
+            <NumberInput
+              onChange={(valueString, valueNumber) =>
+                firstOnChange(valueNumber)
+              }
+              precision={0}
+              step={1}
+              min={110000}
+              max={999999}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </div>
 
-        <Text fontSize="sm" padding="0.5rem 0">
-          Second Pincode
-        </Text>
-        <NumberInput
-          onChange={(valueString, valueNumber) => secondOnChange(valueNumber)}
-          precision={0}
-          step={1}
-          min={110000}
-          max={999999}
-        >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
+          <div>
+            <Text fontSize="sm" padding="0.5rem 0">
+              Second Pincode
+            </Text>
+            <NumberInput
+              onChange={(valueString, valueNumber) =>
+                secondOnChange(valueNumber)
+              }
+              precision={0}
+              step={1}
+              min={110000}
+              max={999999}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </div>
+        </form>
 
         <Results pincode={firstPincode} />
         <Results pincode={secondPincode} />
@@ -86,11 +96,7 @@ export function App() {
       >
         Made by{" "}
         <u>
-          <a
-            href="https://www.linkedin.com/in/thatniceman"
-            rel="noreferrer"
-            target="_blank"
-          >
+          <a href="https://twitter.com/cse_as" rel="noreferrer" target="_blank">
             Abhijeet Singh
           </a>
         </u>
