@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_BASE_PUBLIC =
   "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin";
+// const API_BASE_PUBLIC = "http://localhost:3001/mock";
 
 export async function getLocationsByPincode(pincode) {
   if (!pincode) {
