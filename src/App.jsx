@@ -13,6 +13,7 @@ import { Results } from "./components/Results";
 export function App() {
   const [firstPincode, setFirstPincode] = useState(null);
   const [secondPincode, setSecondPincode] = useState(null);
+  const [thirdPincode, setThirdPincode] = useState(null);
 
   function firstOnChange(value) {
     if (value >= 110000) {
@@ -26,6 +27,12 @@ export function App() {
     }
   }
 
+  function thirdOnChange(value) {
+    if (value >= 110000) {
+      setThirdPincode(value);
+    }
+  }
+
   return (
     <>
       <Container maxW="container.sm">
@@ -34,9 +41,9 @@ export function App() {
         </Text>
 
         <form style={{ display: "flex", justifyContent: "space-evenly" }}>
-          <div>
+          <div style={{ maxWidth: "10rem" }}>
             <Text fontSize="sm" padding="0.5rem 0">
-              First Pincode
+              1st Pincode
             </Text>
             <NumberInput
               onChange={(valueString, valueNumber) =>
@@ -55,9 +62,9 @@ export function App() {
             </NumberInput>
           </div>
 
-          <div>
+          <div style={{ maxWidth: "10rem" }}>
             <Text fontSize="sm" padding="0.5rem 0">
-              Second Pincode
+              2nd Pincode
             </Text>
             <NumberInput
               onChange={(valueString, valueNumber) =>
@@ -75,10 +82,32 @@ export function App() {
               </NumberInputStepper>
             </NumberInput>
           </div>
+
+          <div style={{ maxWidth: "10rem" }}>
+            <Text fontSize="sm" padding="0.5rem 0">
+              3rd Pincode
+            </Text>
+            <NumberInput
+              onChange={(valueString, valueNumber) =>
+                thirdOnChange(valueNumber)
+              }
+              precision={0}
+              step={1}
+              min={110000}
+              max={999999}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </div>
         </form>
 
         <Results pincode={firstPincode} />
         <Results pincode={secondPincode} />
+        <Results pincode={thirdPincode} />
 
         <Text fontSize="sm" padding="2rem 0">
           <strong>Note:</strong> This utility only checks for vaccination
